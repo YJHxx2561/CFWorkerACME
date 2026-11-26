@@ -3,31 +3,33 @@
   "name": "cfworker-acme",
   "main": "src/cfapp.ts",
   "compatibility_date": "2025-03-10",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+  "compatibility_flags": ["nodejs_compat"],
   "vars": {
-    "DB_SOURCE": "d1",
-    "MAIL_KEYS": "",
-    "MAIL_SEND": "noreply@example.com",
-    "AUTH_KEYS": "",
-    "SITE_KEYS": "",
-    "DCV_AGENT": "",
-    "DCV_EMAIL": "account@example.com",
-    "DCV_TOKEN": "",
-    "DCV_ZONES": "",
-    "GTS_useIt": "",
-    "GTS_keyMC": "",
-    "GTS_keyID": "",
-    "GTS_KeyTS": "",
-    "SSL_useIt": "true",
-    "SSL_keyMC": "",
-    "SSL_keyID": "",
-    "SSL_KeyTS": "",
-    "ZRO_useIt": "true",
-    "ZRO_keyMC": "",
-    "ZRO_keyID": "",
-    "ZRO_KeyTS": ""
+    // ===== 数据库 =====
+    "DB_SOURCE": "d1",                       // d1 / mysql / prisma
+    // "DB_MYSQL_URL":  "",                  // DB_SOURCE=mysql 时使用，二选一
+    // "DB_MYSQL_HOST": "", "DB_MYSQL_PORT": "3306",
+    // "DB_MYSQL_USER": "", "DB_MYSQL_PASS": "", "DB_MYSQL_NAME": "",
+    // "DATABASE_URL":  "",                  // DB_SOURCE=prisma 时使用
+
+    // ===== 邮件通知 =====
+    "MAIL_KEYS": "",                         // Resend API Key
+    "MAIL_SEND": "notice@notice.x.yjhup.com",      // 发件邮箱
+
+    // ===== 安全 / 人机验证 =====
+    "AUTH_KEYS": "",                         // Turnstile / hCaptcha / reCAPTCHA 的 Secret Key
+    "SITE_KEYS": "",                         // Turnstile / hCaptcha / reCAPTCHA 的 Site Key
+
+    // ===== DCV 自动验证代理（Cloudflare）=====
+    "DCV_AGENT": "",                         // DCV 代理域名（根域名）
+    "DCV_EMAIL": "x@yjhup.com",      // CloudFlare 账号邮箱
+    "DCV_TOKEN": "",                         // CloudFlare API Key / Token
+    "DCV_ZONES": "",                         // CloudFlare Zone ID
+
+    // ===== CA 厂商配置 =====
+    "GTS_useIt": "",     "GTS_keyMC": "", "GTS_keyID": "", "GTS_KeyTS": "",  // Google Trust Service
+    "SSL_useIt": "true", "SSL_keyMC": "", "SSL_keyID": "", "SSL_KeyTS": "",  // SSL.com
+    "ZRO_useIt": "true", "ZRO_keyMC": "", "ZRO_keyID": "", "ZRO_KeyTS": ""   // ZeroSSL
   },
   "site": {
     "bucket": "./public"
@@ -35,17 +37,10 @@
   "d1_databases": [
     {
       "binding": "DB_CF",
-      "database_name": "DB_CF",
-      "database_id": "<database-id>"
+      "database_name": "workacme-data",
+      "database_id": "5fe3fd54-7245-43df-b2f2-0e7858ee6e7e"
     }
   ],
-  "observability": {
-    "enabled": true,
-    "head_sampling_rate": 1
-  },
-  "triggers": {
-    "crons": [
-      "*/1 * * * *"
-    ]
-  }
+  "observability": { "enabled": true, "head_sampling_rate": 1 },
+  "triggers": { "crons": ["*/1 * * * *"] }
 }
